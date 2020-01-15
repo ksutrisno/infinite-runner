@@ -53,6 +53,9 @@ export default class GameScene extends Phaser.Scene {
     this.time.addEvent(
       {delay: 1500, loop:true, callback: ()=>this.addScore(100)}
     )
+
+    this.add.text(20, 50, "Up Arrow - Jump", {fontSize: 25, color: "black"});
+    this.add.text(20, 100, "Down Arrow - Duck", {fontSize: 25, color: "black"});
   }
 
 

@@ -18,7 +18,7 @@ export default class Runner extends Phaser.Physics.Arcade.Sprite {
     scene.physics.add.existing(this);
 
     this.setGravity(0, 350);
-    this.setAccelerationY(300);
+    this.setAccelerationY(350);
     this.setSize(70, 80);
     this.setOffset(10, 15);
 

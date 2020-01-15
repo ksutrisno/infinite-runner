@@ -26,7 +26,7 @@ export default class ObstacleManager {
     }
 
     scene.time.addEvent({
-      delay: Math.ceil(Math.random() * 1500) + 1500,
+      delay: Math.ceil(Math.random() * 1250) + 1500,
       loop: true,
       callback: () => this.generateObstacle()
     });

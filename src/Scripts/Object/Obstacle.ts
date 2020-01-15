@@ -3,6 +3,8 @@ import * as Phaser from "phaser";
 const k_width = 1200;
 
 export default class Obstacle extends Phaser.GameObjects.Image {
+ 
+  private m_action : Phaser.Tweens.Tween;
 
   constructor(
     scene: Phaser.Scene,
@@ -35,7 +37,7 @@ export default class Obstacle extends Phaser.GameObjects.Image {
     this.setVisible(true);
     this.x = this.scene.cameras.main.width;
 
-    this.scene.tweens.add({
+    this.m_action = this.scene.tweens.add({
         targets: this,
         x: 0,
         ease: "Linear",
@@ -43,6 +45,11 @@ export default class Obstacle extends Phaser.GameObjects.Image {
         repeat: 0,
         onComplete: ()=> this.setVisible(false)
       });
+  }
+
+  stop()
+  {
+    this.m_action.stop();
   }
 
 }

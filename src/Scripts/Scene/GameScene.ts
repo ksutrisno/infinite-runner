@@ -10,6 +10,10 @@ export default class GameScene extends Phaser.Scene {
 
   private m_runner: Runner;
 
+  private m_score: number = 0;
+
+  private m_scoreText: Phaser.GameObjects.Text;
+
   constructor() {
     super({ key: "GameScene" });
   }
@@ -42,8 +46,22 @@ export default class GameScene extends Phaser.Scene {
       duration: 3500,
       repeat: -1
     });
-    new ObstacleManager(this, this.m_runner, () => this.gameOver());
+    new ObstacleManager(this, this.m_runner, () => this.gameOver(), ()=>this.addScore(300));
+
+    this.m_scoreText = this.add.text(this.cameras.main.width/2, 75, this.m_score.toString(), {fontSize: 60, color: "black"}).setOrigin(0.5);
+
+    this.time.addEvent(
+      {delay: 1500, loop:true, callback: ()=>this.addScore(100)}
+    )
   }
+
+
+  private addScore(amount:number)
+  {
+    this.m_score += amount; 
+    this.m_scoreText.setText(this.m_score.toString());
+  }
+
 
   update(): void {
     this.fpsText.update();

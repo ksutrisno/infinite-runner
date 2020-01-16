@@ -1,28 +1,37 @@
 import Obstacle from "../Object/Obstacle";
+import PowerUpObject from "../Object/PowerUp/PowerUpObject";
+import {PowerUpType} from "../Object/PowerUp/PowerUpType";
+import {Grow} from "../Object/PowerUp/PowerUp";
+import Runner from "../Object/Runner";
 
-enum ObstacleType {
+export enum ObstacleType {
   kFence,
   kSaw,
-  kCrystal
+  kCrystal,
+  kPowerUp,
 }
 
 export default class ObstacleManager {
-  private m_regularPool: Obstacle[] = [];
-  private m_spinningPool: Obstacle[] = [];
-  private m_crystalPool: Obstacle[] = [];
+  
+  private m_obstaclePool:Obstacle[] = []
 
-  constructor(scene: Phaser.Scene, runner:Phaser.GameObjects.GameObject, gameover:()=>void, addScore:()=>void) {
+  constructor(scene: Phaser.Scene, runner:Runner, gameover:()=>void, addScore:()=>void) {
     //initPool
     for (let i = 0; i < 4; i++) {
-      let obs1 = new Obstacle(scene, 0, 500, "saw", true)
-      let obs2 = new Obstacle(scene, 0, 575, "obstacle", false)
-      let obs3 = new Obstacle(scene, 0, 480, "crystal", false )
-      this.m_spinningPool.push(obs1);
-      this.m_regularPool.push(obs2);
-      this.m_crystalPool.push(obs3);
+      let obs1 = new Obstacle(scene, 0, 500, "saw", true, ObstacleType.kFence)
+      let obs2 = new Obstacle(scene, 0, 575, "obstacle", false, ObstacleType.kSaw)
+      let obs3 = new Obstacle(scene, 0, 480, "crystal", false, ObstacleType.kCrystal)
+      let powerUp = new PowerUpObject(scene, 0, 480, "powerup", ObstacleType.kPowerUp, new Grow(15, PowerUpType.kGrow),)
+      
+      this.m_obstaclePool.push(obs1);
+      this.m_obstaclePool.push(obs2);
+      this.m_obstaclePool.push(obs3);
+      this.m_obstaclePool.push(powerUp);
+
       scene.physics.add.overlap(obs1,runner, gameover);
       scene.physics.add.overlap(obs2,runner, gameover);
       scene.physics.add.overlap(obs3 ,runner, ()=>this.addScore(addScore, obs3));
+      scene.physics.add.overlap(powerUp ,runner, ()=>runner.addPowerUp(powerUp.PowerUpType));
     }
 
     scene.time.addEvent({
@@ -46,44 +55,24 @@ export default class ObstacleManager {
   private generateObstacle() {
     let rand = Math.random();
 
-    if (rand < 0.45) {
+    if (rand < 0.4) {
       this.getObstacleFromPool(ObstacleType.kFence);
-    } else if(rand > 0.45 &&  rand < 0.8) 
-    {
-      this.getObstacleFromPool(ObstacleType.kSaw);
     }
     else
     {
-        this.getObstacleFromPool(ObstacleType.kCrystal);
+      this.getObstacleFromPool(ObstacleType.kPowerUp);
     }
   }
 
   private getObstacleFromPool(type: ObstacleType) {
-    if (type === ObstacleType.kFence) {
-      for (let i = 0; i < this.m_regularPool.length; i++) {
-        if (!this.m_regularPool[i].visible) {
-          this.m_regularPool[i].activate();
+
+      for (let i = 0; i < this.m_obstaclePool.length; i++) {
+        if (!this.m_obstaclePool[i].visible && this.m_obstaclePool[i].Type === type) {
+          this.m_obstaclePool[i].activate();
           return;
         }
       }
     } 
-    else  if (type === ObstacleType.kSaw)
-    {
-      for (let i = 0; i < this.m_spinningPool.length; i++) {
-        if (!this.m_spinningPool[i].visible) {
-          this.m_spinningPool[i].activate();
-          return;
-        }
-      }
-    }
-    else
-    {
-        for (let i = 0; i < this.m_crystalPool.length; i++) {
-            if (!this.m_crystalPool[i].visible) {
-              this.m_crystalPool[i].activate();
-              return;
-            }
-          }
-    }
+    
   }
 }

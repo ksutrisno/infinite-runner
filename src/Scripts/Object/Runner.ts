@@ -1,4 +1,6 @@
 import * as Phaser from "phaser";
+import {PowerUp} from "../Object/PowerUp/PowerUp";
+import { PowerUpType } from "./PowerUp/PowerUpType";
 
 export enum RunnerState {
   kRun = "run",
@@ -9,6 +11,10 @@ export enum RunnerState {
 export default class Runner extends Phaser.Physics.Arcade.Sprite {
   private m_state: RunnerState = RunnerState.kRun;
   private m_cursors: Phaser.Types.Input.Keyboard.CursorKeys;
+  private m_powerUpList: Map<PowerUpType, PowerUp> = new Map<
+    PowerUpType,
+    PowerUp
+  >();
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene, x, y, "runner", 0);
@@ -19,7 +25,7 @@ export default class Runner extends Phaser.Physics.Arcade.Sprite {
 
     this.setGravity(0, 350);
     this.setAccelerationY(350);
-    this.setSize(70, 80);
+    this.setSize(70 * this.scale, 80 * this.scale);
     this.setOffset(10, 15);
 
     var run = {
@@ -57,13 +63,43 @@ export default class Runner extends Phaser.Physics.Arcade.Sprite {
     this.m_cursors.up.on("down", () => this.jump());
     this.m_cursors.down.on("down", () => this.duck());
 
+    scene.time.addEvent({
+      delay: 1000,
+      loop: true,
+
+      callback: () => {
+        this.m_powerUpList.forEach(element => {
+          element.Duration -= 1;
+
+          if (element.Duration <= 0) {
+            this.removePowerUp(element);
+          }
+        });
+      }
+    });
   }
 
-  update():void
-  {
-     
+  public addPowerUp(powerUp: PowerUp) {
+    powerUp.onAdded(this);
+
+    if (!this.m_powerUpList.has(powerUp.Type)) {
+      this.m_powerUpList.set(powerUp.Type, powerUp);
+    } else {
+      this.m_powerUpList.get(powerUp.Type).Duration;
+    }
   }
 
+  private removePowerUp(powerUp: PowerUp) {
+    this.scene.time.addEvent({
+      delay: 100,
+
+      callback: () => {
+        powerUp.onRemoved(this);
+
+        this.m_powerUpList.delete(powerUp.Type);
+      }
+    });
+  }
 
   private jump() {
     if (this.m_state === RunnerState.kRun) {
@@ -74,36 +110,29 @@ export default class Runner extends Phaser.Physics.Arcade.Sprite {
   }
 
   private duck() {
-    
-    if(this.m_state  === RunnerState.kRun)
-    {
-        this.setRunnerState(RunnerState.kDuck);
-        this.setSize(80, 55);
-        this.setOffset(5, 35);
+    if (this.m_state === RunnerState.kRun) {
+      this.setRunnerState(RunnerState.kDuck);
+      this.setSize(80 * this.scale, 55 * this.scale);
+      this.setOffset(5, 35);
 
-        this.scene.time.addEvent({
-          delay: 850,
-          loop: false,
-          callback: () => 
-          {
-              this.setRunnerState(RunnerState.kRun);
-              this.setSize(80, 80);
-              this.setOffset(10, 15);
-              this.y -= 10;
-          }
-        });
+      this.scene.time.addEvent({
+        delay: 850,
+        loop: false,
+        callback: () => {
+          this.setRunnerState(RunnerState.kRun);
+          this.setSize(70 * this.scale, 80 * this.scale);
+          this.setOffset(10, 15);
+          this.y -= 10;
+        }
+      });
     }
-         
   }
 
-  public die()
-  {
-     
-  }
+  public die() {}
 
   grounded = () => {
-    if(this.m_state !==  RunnerState.kDuck)
-        this.setRunnerState(RunnerState.kRun);
+    if (this.m_state !== RunnerState.kDuck)
+      this.setRunnerState(RunnerState.kRun);
   };
 
   private setRunnerState(state: RunnerState) {

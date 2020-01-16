@@ -1,20 +1,28 @@
 import * as Phaser from "phaser";
-
-const k_width = 1200;
+import {ObstacleType} from "../Manager/ObstacleManager"
 
 export default class Obstacle extends Phaser.GameObjects.Image {
  
-  private m_action : Phaser.Tweens.Tween;
+  protected m_action : Phaser.Tweens.Tween;
+  private m_type : ObstacleType;
+  
+  get Type()
+  {
+    return this.m_type;
+  }
 
   constructor(
     scene: Phaser.Scene,
     x: number,
     y: number,
     texture: string,
-    spin: boolean
+    spin: boolean,
+    type: ObstacleType
   ) {
     super(scene, x, y, texture);
     
+    this.m_type = type;
+
     if (spin) {
       scene.tweens.add({
         targets: this,

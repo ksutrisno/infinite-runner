@@ -6,15 +6,22 @@ export abstract class PowerUp{
     
     private m_type:PowerUpType;
     private m_duration:number;
+    private m_currentDuration:number;
 
     get Duration()
     {
-        return this.m_duration;
+        return this.m_currentDuration;
     }
     
-    set Duration(duration:number)
+
+    get CurrentDuration()
     {
-        this.m_duration = duration;
+        return this.m_currentDuration;
+    }
+    
+    set CurrentDuration(duration:number)
+    {
+        this.m_currentDuration = duration;
     }
 
     get Type()
@@ -44,12 +51,16 @@ export class Grow extends PowerUp
         onAdded(runner:Runner):void
         {
             runner.setScale(2);
+            runner.speed = 2;
+            this.CurrentDuration = this.Duration;
         }
 
 
         onRemoved(runner:Runner):void
         {
             runner.setScale(1);
+            runner.speed = 1;
+            
         }
 }
 

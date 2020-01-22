@@ -14,14 +14,17 @@ export enum ObstacleType {
 export default class ObstacleManager {
   
   private m_obstaclePool:Obstacle[] = []
+  private m_runner: Runner;
 
   constructor(scene: Phaser.Scene, runner:Runner, gameover:()=>void, addScore:()=>void) {
-    //initPool
+    
+    this.m_runner = runner;
+      //initPool
     for (let i = 0; i < 4; i++) {
       let obs1 = new Obstacle(scene, 0, 500, "saw", true, ObstacleType.kFence)
       let obs2 = new Obstacle(scene, 0, 575, "obstacle", false, ObstacleType.kSaw)
       let obs3 = new Obstacle(scene, 0, 480, "crystal", false, ObstacleType.kCrystal)
-      let powerUp = new PowerUpObject(scene, 0, 480, "powerup", ObstacleType.kPowerUp, new Grow(15, PowerUpType.kGrow),)
+      let powerUp = new PowerUpObject(scene, 0, 480, "powerup", ObstacleType.kPowerUp, [new Grow(15, PowerUpType.kGrow)])
       
       this.m_obstaclePool.push(obs1);
       this.m_obstaclePool.push(obs2);
@@ -31,7 +34,7 @@ export default class ObstacleManager {
       scene.physics.add.overlap(obs1,runner, gameover);
       scene.physics.add.overlap(obs2,runner, gameover);
       scene.physics.add.overlap(obs3 ,runner, ()=>this.addScore(addScore, obs3));
-      scene.physics.add.overlap(powerUp ,runner, ()=>runner.addPowerUp(powerUp.PowerUpType));
+      scene.physics.add.overlap(powerUp ,runner, ()=>runner.addPowerUp(powerUp.powerUps));
     }
 
     scene.time.addEvent({
@@ -55,20 +58,16 @@ export default class ObstacleManager {
   private generateObstacle() {
     let rand = Math.random();
 
-    if (rand < 0.4) {
-      this.getObstacleFromPool(ObstacleType.kFence);
-    }
-    else
-    {
+  
       this.getObstacleFromPool(ObstacleType.kPowerUp);
-    }
+    
   }
 
   private getObstacleFromPool(type: ObstacleType) {
 
       for (let i = 0; i < this.m_obstaclePool.length; i++) {
         if (!this.m_obstaclePool[i].visible && this.m_obstaclePool[i].Type === type) {
-          this.m_obstaclePool[i].activate();
+          this.m_obstaclePool[i].activate(this.m_runner.speed);
           return;
         }
       }

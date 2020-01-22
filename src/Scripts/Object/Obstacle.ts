@@ -3,7 +3,7 @@ import {ObstacleType} from "../Manager/ObstacleManager"
 
 export default class Obstacle extends Phaser.GameObjects.Image {
  
-  protected m_action : Phaser.Tweens.Tween;
+  protected m_action : Phaser.Time.TimerEvent;
   private m_type : ObstacleType;
   
   get Type()
@@ -36,7 +36,7 @@ export default class Obstacle extends Phaser.GameObjects.Image {
     scene.add.existing(this);
     scene.physics.add.existing(this);
 
-    
+
     this.setVisible(false);
   }
 
@@ -45,19 +45,26 @@ export default class Obstacle extends Phaser.GameObjects.Image {
     this.setVisible(true);
     this.x = this.scene.cameras.main.width;
 
-    this.m_action = this.scene.tweens.add({
-        targets: this,
-        x: 0,
-        ease: "Linear",
-        duration: 3500,
-        repeat: 0,
-        onComplete: ()=> this.setVisible(false)
-      });
+    this.m_action = this.scene.time.addEvent(
+      {
+        delay: 10,
+        loop: true,
+        callback: ()=>{
+            this.x -= 5;
+            
+            if(this.x < -5)
+            {
+              this.setVisible(false);
+              this.stop();
+            }
+        }
+      }
+    )
   }
 
   stop()
   {
-    this.m_action.stop();
+      this.m_action.destroy();
   }
 
 }

@@ -4,11 +4,11 @@ import { ObstacleType } from "../../Manager/ObstacleManager";
 
 export default class PowerUpObject extends Obstacle {
  
-  private m_powerUp: PowerUp;
+  private m_powerUps: PowerUp[] = [];
 
-  get PowerUpType()
+  get powerUps()
   {
-      return this.m_powerUp;
+      return this.m_powerUps;
   }
 
   constructor(
@@ -17,11 +17,11 @@ export default class PowerUpObject extends Obstacle {
     y: number,
     texture: string,
     type: ObstacleType,
-    powerUp:PowerUp
+    powerUp:PowerUp[]
   ) {
     super(scene, x, y, texture,  false, type);
 
-    this.m_powerUp = powerUp;
+    this.m_powerUps = powerUp;
   }
 
 

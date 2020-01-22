@@ -14,6 +14,8 @@ export default class GameScene extends Phaser.Scene {
 
   private m_scoreText: Phaser.GameObjects.Text;
 
+
+  private m_parallax: ParallaxManager;
   constructor() {
     super({ key: "GameScene" });
   }
@@ -27,25 +29,15 @@ export default class GameScene extends Phaser.Scene {
 
     this.m_runner = new Runner(this, 300, 300);
 
-    new ParallaxManager(this);
+    //this.m_parallax = new ParallaxManager(this, this.m_runner);
+
+
     ground.setCollision(this.m_runner, this.m_runner.grounded);
     ground2.setCollision(this.m_runner, this.m_runner.grounded);
 
-    this.tweens.add({
-      targets: ground,
-      x: -this.cameras.main.width,
-      ease: "Linear",
-      duration: 3500,
-      repeat: -1
-    });
+    
 
-    this.tweens.add({
-      targets: ground2,
-      x: 0,
-      ease: "Linear",
-      duration: 3500,
-      repeat: -1
-    });
+
     new ObstacleManager(this, this.m_runner, () => this.gameOver(), ()=>this.addScore(300));
 
     this.m_scoreText = this.add.text(this.cameras.main.width/2, 75, this.m_score.toString(), {fontSize: 60, color: "black"}).setOrigin(0.5);
@@ -78,5 +70,11 @@ export default class GameScene extends Phaser.Scene {
     this.add
       .text(this.cameras.main.width / 2, 300, "GAME OVER", { fontSize: 60, color: "black"})
       .setOrigin(0.5);
+  }
+
+  setSpeed()
+  {
+     // this.m_parallax.startTween(this);
+
   }
 }

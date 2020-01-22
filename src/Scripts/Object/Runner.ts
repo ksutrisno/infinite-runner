@@ -1,6 +1,7 @@
 import * as Phaser from "phaser";
 import {PowerUp} from "../Object/PowerUp/PowerUp";
 import { PowerUpType } from "./PowerUp/PowerUpType";
+import GameScene from "../Scene/GameScene";
 
 export enum RunnerState {
   kRun = "run",
@@ -11,12 +12,26 @@ export enum RunnerState {
 export default class Runner extends Phaser.Physics.Arcade.Sprite {
   private m_state: RunnerState = RunnerState.kRun;
   private m_cursors: Phaser.Types.Input.Keyboard.CursorKeys;
+
+  private m_speed:number = 1;
+
+  private m_gameScene:GameScene;
+
+  public get speed(): number  {
+		return this.m_speed;
+  }
+  public set speed(speed:number)  {
+     this.m_speed = speed;
+     
+     this.m_gameScene.setSpeed();
+	}
+
   private m_powerUpList: Map<PowerUpType, PowerUp> = new Map<
     PowerUpType,
     PowerUp
   >();
 
-  constructor(scene: Phaser.Scene, x: number, y: number) {
+  constructor(scene: GameScene, x: number, y: number) {
     super(scene, x, y, "runner", 0);
 
     scene.add.existing(this);
@@ -27,6 +42,8 @@ export default class Runner extends Phaser.Physics.Arcade.Sprite {
     this.setAccelerationY(350);
     this.setSize(70 * this.scale, 80 * this.scale);
     this.setOffset(10, 15);
+
+    this.m_gameScene = scene;
 
     var run = {
       key: "run",
@@ -69,9 +86,9 @@ export default class Runner extends Phaser.Physics.Arcade.Sprite {
 
       callback: () => {
         this.m_powerUpList.forEach(element => {
-          element.Duration -= 1;
+          element.CurrentDuration -= 1;
 
-          if (element.Duration <= 0) {
+          if (element.CurrentDuration <= 0) {
             this.removePowerUp(element);
           }
         });
@@ -79,14 +96,20 @@ export default class Runner extends Phaser.Physics.Arcade.Sprite {
     });
   }
 
-  public addPowerUp(powerUp: PowerUp) {
-    powerUp.onAdded(this);
+  public addPowerUp(powerUps: PowerUp[]) {
 
-    if (!this.m_powerUpList.has(powerUp.Type)) {
-      this.m_powerUpList.set(powerUp.Type, powerUp);
-    } else {
-      this.m_powerUpList.get(powerUp.Type).Duration;
-    }
+   
+    powerUps.forEach(powerUp => {
+      if (!this.m_powerUpList.has(powerUp.Type)) {
+        this.m_powerUpList.set(powerUp.Type, powerUp);
+        powerUp.onAdded(this);
+      } else {
+        this.m_powerUpList.get(powerUp.Type).Duration;
+      }
+  });
+
+
+   
   }
 
   private removePowerUp(powerUp: PowerUp) {
@@ -112,7 +135,7 @@ export default class Runner extends Phaser.Physics.Arcade.Sprite {
   private duck() {
     if (this.m_state === RunnerState.kRun) {
       this.setRunnerState(RunnerState.kDuck);
-      this.setSize(80 * this.scale, 55 * this.scale);
+      this.setSize(80 * this.scale/2, 55 * this.scale/2);
       this.setOffset(5, 35);
 
       this.scene.time.addEvent({
@@ -120,7 +143,7 @@ export default class Runner extends Phaser.Physics.Arcade.Sprite {
         loop: false,
         callback: () => {
           this.setRunnerState(RunnerState.kRun);
-          this.setSize(70 * this.scale, 80 * this.scale);
+          this.setSize(70, 80);
           this.setOffset(10, 15);
           this.y -= 10;
         }

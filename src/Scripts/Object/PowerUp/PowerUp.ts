@@ -1,5 +1,4 @@
 import {PowerUpType} from "./PowerUpType"
-import { object } from "prop-types";
 import Runner from "../Runner";
 
 export abstract class PowerUp{

@@ -1,8 +1,11 @@
+import * as Phaser from "phaser"
 import Obstacle from "../Object/Obstacle";
 import PowerUpObject from "../Object/PowerUp/PowerUpObject";
 import {PowerUpType} from "../Object/PowerUp/PowerUpType";
 import {Grow} from "../Object/PowerUp/PowerUp";
 import Runner from "../Object/Runner";
+
+
 
 export enum ObstacleType {
   kFence,
@@ -67,11 +70,11 @@ export default class ObstacleManager {
 
       for (let i = 0; i < this.m_obstaclePool.length; i++) {
         if (!this.m_obstaclePool[i].visible && this.m_obstaclePool[i].Type === type) {
-          this.m_obstaclePool[i].activate(this.m_runner.speed);
+          this.m_obstaclePool[i].activate();
           return;
         }
       }
     } 
     
-  }
+  
 }

@@ -1,5 +1,4 @@
 import Runner from "../Object/Runner"
-import { Scene } from "phaser";
 
 export default class ParallaxManager
 {
@@ -9,10 +8,7 @@ export default class ParallaxManager
     private m_sky2:Phaser.GameObjects.Image;
     private m_runner:Runner;
 
-    private m_tween1: Phaser.Tweens.Tween;
-    private m_tween2: Phaser.Tweens.Tween;
-    private m_tween3: Phaser.Tweens.Tween;
-    private m_tween4: Phaser.Tweens.Tween;
+
 
     constructor(scene: Phaser.Scene, runner:Runner)
     {   
@@ -47,90 +43,31 @@ export default class ParallaxManager
         .setDepth(-2)
         .setAlpha(0.6)
 
+        this.startMovement(scene, this.m_mountain, 1, runner, 0, -2048);
+        this.startMovement(scene, this.m_mountain2, 1, runner, 2048, 0);   
 
-              
-        this.m_tween1 = scene.tweens.add({
-            targets: this.m_mountain,
-            x: -scene.cameras.main.width - (2048 - scene.cameras.main.width),
-            ease: "Linear",
-            duration: 10000/this.m_runner.speed,
-            repeat: -1
-            });
-            
-                 
-            this.m_tween2 =  scene.tweens.add({
-            targets: this.m_mountain2,
-            x: 0,
-            ease: "Linear",
-            duration: 10000/this.m_runner.speed,
-            repeat: -1
-            });
-            
-                  
-            this.m_tween3 = scene.tweens.add({
-            targets: this.m_sky,
-            x: -scene.cameras.main.width,
-            ease: "Linear",
-            duration: 10000/this.m_runner.speed,
-            repeat: -1
-            });
-            
-           this.m_tween4 = scene.tweens.add({
-            targets: this.m_sky2,
-            x: 0,
-            ease: "Linear",
-            duration: 10000/this.m_runner.speed,
-            repeat: -1
-            });
-            
-
-            
+        this.startMovement(scene, this.m_sky, 0.25, runner, 0, -scene.cameras.main.width);
+        this.startMovement(scene, this.m_sky2, 0.25, runner, scene.cameras.main.width, 0);  
     }
 
-    public startTween(scene:Scene)
-    {      
-
-        this.m_tween1.stop();
-        this.m_tween2.stop();
-        this.m_tween3.stop();
-        this.m_tween4.stop();
-
-        this.m_tween1 = scene.tweens.add({
-            targets: this.m_mountain,
-            x: -scene.cameras.main.width - (2048 - scene.cameras.main.width),
-            ease: "Linear",
-            duration: 10000/this.m_runner.speed,
-            repeat: -1
-            });
-            
-                 
-            this.m_tween2 =  scene.tweens.add({
-            targets: this.m_mountain2,
-            x: 0,
-            ease: "Linear",
-            duration: 10000/this.m_runner.speed,
-            repeat: -1
-            });
-            
+    startMovement(scene:Phaser.Scene, object:Phaser.GameObjects.Image,  speed:number, runner:Runner, start:number, end:number)
+    {
+        scene.time.addEvent(
+            {
+              delay: 10,
+              loop: true,
+              callback: ()=>{
+                object.x -= speed * runner.speed;
                   
-            this.m_tween3 = scene.tweens.add({
-            targets: this.m_sky,
-            x: -scene.cameras.main.width,
-            ease: "Linear",
-            duration: 10000/this.m_runner.speed,
-            repeat: -1
-            });
-            
-           this.m_tween4 = scene.tweens.add({
-            targets: this.m_sky2,
-            x: 0,
-            ease: "Linear",
-            duration: 10000/this.m_runner.speed,
-            repeat: -1
-            });
-            
-          
+                  if(object.x <= end)
+                  {
+                        object.x = start;
+                  }
+              }
+            })
+        
     }
+
 
 }
 

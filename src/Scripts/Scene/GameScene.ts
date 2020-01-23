@@ -29,7 +29,7 @@ export default class GameScene extends Phaser.Scene {
 
     this.m_runner = new Runner(this, 300, 300);
 
-    //this.m_parallax = new ParallaxManager(this, this.m_runner);
+    this.m_parallax = new ParallaxManager(this, this.m_runner);
 
 
     ground.setCollision(this.m_runner, this.m_runner.grounded);
@@ -72,9 +72,5 @@ export default class GameScene extends Phaser.Scene {
       .setOrigin(0.5);
   }
 
-  setSpeed()
-  {
-     // this.m_parallax.startTween(this);
-
-  }
+ 
 }

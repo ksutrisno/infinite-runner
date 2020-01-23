@@ -22,8 +22,7 @@ export default class Runner extends Phaser.Physics.Arcade.Sprite {
   }
   public set speed(speed:number)  {
      this.m_speed = speed;
-     
-     this.m_gameScene.setSpeed();
+    
 	}
 
   private m_powerUpList: Map<PowerUpType, PowerUp> = new Map<
@@ -135,7 +134,7 @@ export default class Runner extends Phaser.Physics.Arcade.Sprite {
   private duck() {
     if (this.m_state === RunnerState.kRun) {
       this.setRunnerState(RunnerState.kDuck);
-      this.setSize(80 * this.scale/2, 55 * this.scale/2);
+      this.setSize(80, 55);
       this.setOffset(5, 35);
 
       this.scene.time.addEvent({

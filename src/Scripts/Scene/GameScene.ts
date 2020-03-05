@@ -27,7 +27,13 @@ export default class GameScene extends Phaser.Scene {
     let ground = new Ground(this, 0, 600);
     let ground2 = new Ground(this, this.cameras.main.width, 600);
 
+
+
     this.m_runner = new Runner(this, 300, 300);
+
+    this.startMovement(ground, 5, this.m_runner, 0, -this.cameras.main.width);
+
+    this.startMovement(ground2, 5, this.m_runner, this.cameras.main.width, 0);
 
     this.m_parallax = new ParallaxManager(this, this.m_runner);
 
@@ -70,6 +76,25 @@ export default class GameScene extends Phaser.Scene {
     this.add
       .text(this.cameras.main.width / 2, 300, "GAME OVER", { fontSize: 60, color: "black"})
       .setOrigin(0.5);
+  }
+
+
+  startMovement(object:Phaser.GameObjects.Container,  speed:number, runner:Runner, start:number, end:number)
+  {
+      this.time.addEvent(
+          {
+            delay: 10,
+            loop: true,
+            callback: ()=>{
+              object.x -= speed * runner.speed;
+                
+                if(object.x <= end)
+                {
+                    object.x = start;
+                }
+            }
+          })
+      
   }
 
  

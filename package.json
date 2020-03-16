@@ -4,7 +4,7 @@
   "description": "starting scene",
   "main": "app.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "webpack --watch & live-server --port=8085 && node server.js ",
     "heroku-postbuild": "webpack -p"
   },
   "author": "kevin sutrisno",
@@ -16,8 +16,5 @@
     "typescript": "^3.7.4",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10"
-  },
-  "dependencies": {
-    "express": "^4.17.1"
   }
 }

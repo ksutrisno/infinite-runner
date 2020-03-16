@@ -123,7 +123,7 @@ export default class Runner extends Phaser.Physics.Arcade.Sprite {
     });
   }
 
-  private jump() {
+  public jump() {
     if (this.m_state === RunnerState.kRun) {
       this.setVelocityY(-450);
 
@@ -150,7 +150,9 @@ export default class Runner extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
-  public die() {}
+  public die() {
+    
+  }
 
   grounded = () => {
     if (this.m_state !== RunnerState.kDuck)

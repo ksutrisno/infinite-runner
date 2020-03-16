@@ -25,14 +25,15 @@ export default class ObstacleManager {
     this.m_runner = runner;
     //initPool
     for (let i = 0; i < 4; i++) {
-      let obs1 = new Obstacle(scene, 0, 500, "saw", true, ObstacleType.kSaw);
+      let obs1 = new Obstacle(scene, 0, 500, "saw", true, ObstacleType.kSaw, runner);
       let obs2 = new Obstacle(
         scene,
         0,
         575,
         "obstacle",
         false,
-        ObstacleType.kFence
+        ObstacleType.kFence,
+        runner
       );
       let obs3 = new Obstacle(
         scene,
@@ -40,7 +41,8 @@ export default class ObstacleManager {
         480,
         "crystal",
         false,
-        ObstacleType.kCrystal
+        ObstacleType.kCrystal,
+        runner
       );
       let powerUp = new PowerUpObject(
         scene,
@@ -48,7 +50,8 @@ export default class ObstacleManager {
         480,
         "powerup",
         ObstacleType.kPowerUp,
-        [new Grow(15, PowerUpType.kGrow)]
+        [new Grow(15, PowerUpType.kGrow)],
+        runner,
       );
 
       this.m_obstaclePool.push(obs1);

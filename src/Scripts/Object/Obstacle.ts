@@ -1,10 +1,12 @@
 import * as Phaser from "phaser";
 import {ObstacleType} from "../Manager/ObstacleManager"
+import Runner  from "./Runner";
 
 export default class Obstacle extends Phaser.GameObjects.Image {
  
   protected m_action : Phaser.Time.TimerEvent;
   private m_type : ObstacleType;
+  private m_runner: Runner;
   
   get Type()
   {
@@ -17,10 +19,12 @@ export default class Obstacle extends Phaser.GameObjects.Image {
     y: number,
     texture: string,
     spin: boolean,
-    type: ObstacleType
+    type: ObstacleType,
+    runner: Runner
   ) {
     super(scene, x, y, texture);
     
+    this.m_runner = runner;
     this.m_type = type;
 
     if (spin) {
@@ -50,7 +54,7 @@ export default class Obstacle extends Phaser.GameObjects.Image {
         delay: 10,
         loop: true,
         callback: ()=>{
-            this.x -= 5;
+            this.x -= 5 * this.m_runner.speed;
             
             if(this.x < -5)
             {

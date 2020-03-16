@@ -22,6 +22,8 @@ export default class GameScene extends Phaser.Scene {
   private m_gameState: GameState = GameState.kInGame;
 
   private m_parallax: ParallaxManager;
+
+  private m_obstacleManager: ObstacleManager;
   constructor() {
     super({ key: "GameScene" });
   }
@@ -44,7 +46,7 @@ export default class GameScene extends Phaser.Scene {
     ground.setCollision(this.m_runner, this.m_runner.grounded);
     ground2.setCollision(this.m_runner, this.m_runner.grounded);
 
-    new ObstacleManager(
+  this.m_obstacleManager =  new ObstacleManager(
       this,
       this.m_runner,
       () => this.gameOver(),
@@ -90,6 +92,8 @@ export default class GameScene extends Phaser.Scene {
 
   gameOver() {
     this.physics.world.colliders.destroy();
+
+    this.m_obstacleManager.pause();
     this.m_runner.die();
 
     this.m_gameState = GameState.kGameover;

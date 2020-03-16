@@ -16,6 +16,8 @@ export default class ObstacleManager {
   private m_obstaclePool: Obstacle[] = [];
   private m_runner: Runner;
 
+  private m_spawnEvent : Phaser.Time.TimerEvent;
+
   constructor(
     scene: Phaser.Scene,
     runner: Runner,
@@ -69,7 +71,7 @@ export default class ObstacleManager {
       );
     }
 
-    scene.time.addEvent({
+    this.m_spawnEvent = scene.time.addEvent({
       delay: Math.ceil(Math.random() * 1250) + 1500,
       loop: true,
       callback: () => this.generateObstacle()
@@ -96,6 +98,16 @@ export default class ObstacleManager {
     } else {
       this.getObstacleFromPool(ObstacleType.kCrystal);
     } 
+  }
+
+  public pause()
+  {
+    this.m_spawnEvent.paused = true;
+  }
+
+  public resume()
+  {
+    this.m_spawnEvent.paused = false;
   }
 
   private getObstacleFromPool(type: ObstacleType) {

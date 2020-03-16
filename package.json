@@ -4,7 +4,7 @@
   "description": "starting scene",
   "main": "app.js",
   "scripts": {
-    "start": "webpack --watch & live-server --port=8085 && node server.js ",
+    "start": "node server.js ",
     "heroku-postbuild": "webpack -p"
   },
   "author": "kevin sutrisno",

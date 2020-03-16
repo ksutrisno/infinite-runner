@@ -1,29 +1,101 @@
 import * as Phaser from "phaser";
-import Shopee from "../Object/Shopee"
 import FpsText from "../Object/FpsText";
-
+import Ground from "../Object/Ground";
+import Runner from "../Object/Runner";
+import ObstacleManager from "../Manager/ObstacleManager";
+import ParallaxManager from "../Manager/ParallaxManager";
 
 export default class GameScene extends Phaser.Scene {
+  private fpsText: FpsText;
 
-  private fpsText:FpsText;
+  private m_runner: Runner;
 
+  private m_score: number = 0;
+
+  private m_scoreText: Phaser.GameObjects.Text;
+
+
+  private m_parallax: ParallaxManager;
   constructor() {
     super({ key: "GameScene" });
   }
 
-  preload(): void 
-  {
-     
+  preload(): void {}
+
+  create(): void {
+    this.fpsText = new FpsText(this);
+    let ground = new Ground(this, 0, 600);
+    let ground2 = new Ground(this, this.cameras.main.width, 600);
+
+
+
+    this.m_runner = new Runner(this, 300, 300);
+
+    this.startMovement(ground, 5, this.m_runner, 0, -this.cameras.main.width);
+
+    this.startMovement(ground2, 5, this.m_runner, this.cameras.main.width, 0);
+
+    this.m_parallax = new ParallaxManager(this, this.m_runner);
+
+
+    ground.setCollision(this.m_runner, this.m_runner.grounded);
+    ground2.setCollision(this.m_runner, this.m_runner.grounded);
+
+    
+
+
+    new ObstacleManager(this, this.m_runner, () => this.gameOver(), ()=>this.addScore(300));
+
+    this.m_scoreText = this.add.text(this.cameras.main.width/2, 75, this.m_score.toString(), {fontSize: 60, color: "black"}).setOrigin(0.5);
+
+    this.time.addEvent(
+      {delay: 1500, loop:true, callback: ()=>this.addScore(100)}
+    )
+
+    this.add.text(20, 50, "Up Arrow - Jump", {fontSize: 25, color: "black"});
+    this.add.text(20, 100, "Down Arrow - Duck", {fontSize: 25, color: "black"});
   }
 
-  create(): void 
+
+  private addScore(amount:number)
   {
-      this.fpsText = new FpsText(this);
-      new Shopee(this, this.cameras.main.width/2, this.cameras.main.height/2);
+    this.m_score += amount; 
+    this.m_scoreText.setText(this.m_score.toString());
   }
 
-  update(): void 
-  {
+
+  update(): void {
     this.fpsText.update();
+
+    this.m_runner.update();
   }
+
+  gameOver() {
+    this.m_runner.die();
+    this.game.scene.pause("GameScene");
+    this.add
+      .text(this.cameras.main.width / 2, 300, "GAME OVER", { fontSize: 60, color: "black"})
+      .setOrigin(0.5);
+  }
+
+
+  startMovement(object:Phaser.GameObjects.Container,  speed:number, runner:Runner, start:number, end:number)
+  {
+      this.time.addEvent(
+          {
+            delay: 10,
+            loop: true,
+            callback: ()=>{
+              object.x -= speed * runner.speed;
+                
+                if(object.x <= end)
+                {
+                    object.x = start;
+                }
+            }
+          })
+      
+  }
+
+ 
 }

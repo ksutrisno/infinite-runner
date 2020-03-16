@@ -3,8 +3,8 @@ import GameScene from "./Scene/GameScene";
 import PreloadScene from "./Scene/PreloadScene";
 type GameConfig = Phaser.Types.Core.GameConfig;
 
-const DEFAULT_WIDTH = 720;
-const DEFAULT_HEIGHT = 1200;
+const DEFAULT_WIDTH = 1200;
+const DEFAULT_HEIGHT = 800;
 
 const config: GameConfig = {
   title: "PhaserGame",
@@ -21,7 +21,7 @@ const config: GameConfig = {
       debug: false
     }
   },
-  backgroundColor: "#493a52",
+  backgroundColor: "#8bd6e0",
   scene: [PreloadScene, GameScene]
  
 };

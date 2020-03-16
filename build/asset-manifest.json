@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/dancing/static/css/main.f4660188.chunk.css",
+    "main.js": "/dancing/static/js/main.d6268077.chunk.js",
+    "main.js.map": "/dancing/static/js/main.d6268077.chunk.js.map",
+    "runtime-main.js": "/dancing/static/js/runtime-main.fa9c28eb.js",
+    "runtime-main.js.map": "/dancing/static/js/runtime-main.fa9c28eb.js.map",
+    "static/js/2.72fd19fe.chunk.js": "/dancing/static/js/2.72fd19fe.chunk.js",
+    "static/js/2.72fd19fe.chunk.js.map": "/dancing/static/js/2.72fd19fe.chunk.js.map",
+    "static/js/3.c9a468b4.chunk.js": "/dancing/static/js/3.c9a468b4.chunk.js",
+    "static/js/3.c9a468b4.chunk.js.map": "/dancing/static/js/3.c9a468b4.chunk.js.map",
+    "static/js/4.e179b185.chunk.js": "/dancing/static/js/4.e179b185.chunk.js",
+    "static/js/4.e179b185.chunk.js.map": "/dancing/static/js/4.e179b185.chunk.js.map",
+    "index.html": "/dancing/index.html",
+    "precache-manifest.b0cbeb6601646864f763568b97f44741.js": "/dancing/precache-manifest.b0cbeb6601646864f763568b97f44741.js",
+    "service-worker.js": "/dancing/service-worker.js",
+    "static/css/main.f4660188.chunk.css.map": "/dancing/static/css/main.f4660188.chunk.css.map",
+    "static/js/2.72fd19fe.chunk.js.LICENSE": "/dancing/static/js/2.72fd19fe.chunk.js.LICENSE",
+    "static/js/3.c9a468b4.chunk.js.LICENSE": "/dancing/static/js/3.c9a468b4.chunk.js.LICENSE"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.fa9c28eb.js",
+    "static/js/3.c9a468b4.chunk.js",
+    "static/css/main.f4660188.chunk.css",
+    "static/js/main.d6268077.chunk.js"
+  ]
+}

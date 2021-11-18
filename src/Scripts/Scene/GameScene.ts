@@ -4,6 +4,7 @@ import Ground from "../Object/Ground";
 import Runner from "../Object/Runner";
 import ObstacleManager from "../Manager/ObstacleManager";
 import ParallaxManager from "../Manager/ParallaxManager";
+import AlignTool from "../Util/AlignTool";
 
 enum GameState {
   kInGame,
@@ -31,9 +32,9 @@ export default class GameScene extends Phaser.Scene {
   preload(): void {}
 
   create(): void {
-    this.fpsText = new FpsText(this);
-    let ground = new Ground(this, 0, 600);
-    let ground2 = new Ground(this, this.cameras.main.width, 600);
+   // this.fpsText = new FpsText(this);
+    let ground = new Ground(this, 0, this.cameras.main.height);
+    let ground2 = new Ground(this, this.cameras.main.width, this.cameras.main.height);
 
     this.m_runner = new Runner(this, 300, 300);
 
@@ -55,7 +56,7 @@ export default class GameScene extends Phaser.Scene {
 
     this.m_scoreText = this.add
       .text(this.cameras.main.width / 2, 75, this.m_score.toString(), {
-        fontSize: 60,
+        fontSize: "60px",
         color: "black"
       })
       .setOrigin(0.5);
@@ -66,13 +67,9 @@ export default class GameScene extends Phaser.Scene {
       callback: () => this.addScore(100)
     });
 
-    this.add.text(20, 50, "Up Arrow - Jump", { fontSize: 25, color: "black" });
-    this.add.text(20, 100, "Down Arrow - Duck", {
-      fontSize: 25,
-      color: "black"
-    });
+   
 
-    this.input.keyboard.on("keydown_R", () => this.restart());
+
   }
 
   private addScore(amount: number) {
@@ -85,7 +82,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   update(): void {
-    this.fpsText.update();
+   // this.fpsText.update();
 
     this.m_runner.update();
   }
@@ -99,14 +96,14 @@ export default class GameScene extends Phaser.Scene {
     this.m_gameState = GameState.kGameover;
     this.add
       .text(this.cameras.main.width / 2, 300, "GAME OVER", {
-        fontSize: 60,
+        fontSize:  "60px",
         color: "black"
       })
       .setOrigin(0.5);
 
     this.add
-      .text(this.cameras.main.width / 2, 350, "R - Restart", {
-        fontSize: 25,
+      .text(this.cameras.main.width / 2, 350, "Tap to Restart", {
+        fontSize: "25px",
         color: "black"
       })
       .setOrigin(0.5);
@@ -115,11 +112,18 @@ export default class GameScene extends Phaser.Scene {
     this.m_runner.speed = 0;
 
     this.physics.world.colliders.destroy();
+
+    
+    this.input.on("pointerdown", () => this.restart());
   }
 
   restart() {
     this.m_score = 0;
     this.m_gameState = GameState.kInGame;
+
+    
+    this.input.removeListener("pointerdown", () => this.restart());
+
     this.scene.restart();
   }
 

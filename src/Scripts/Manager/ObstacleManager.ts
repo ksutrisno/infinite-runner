@@ -27,11 +27,11 @@ export default class ObstacleManager {
     this.m_runner = runner;
     //initPool
     for (let i = 0; i < 4; i++) {
-      let obs1 = new Obstacle(scene, 0, 500, "saw", true, ObstacleType.kSaw, runner);
+      //let obs1 = new Obstacle(scene, 0, 500, "saw", true, ObstacleType.kSaw, runner);
       let obs2 = new Obstacle(
         scene,
         0,
-        575,
+        scene.cameras.main.height - 64* 7 - 25,
         "obstacle",
         false,
         ObstacleType.kFence,
@@ -40,7 +40,7 @@ export default class ObstacleManager {
       let obs3 = new Obstacle(
         scene,
         0,
-        480,
+        scene.cameras.main.height  - 64* 8 - 120,
         "crystal",
         false,
         ObstacleType.kCrystal,
@@ -56,19 +56,17 @@ export default class ObstacleManager {
         runner,
       );
 
-      this.m_obstaclePool.push(obs1);
+      //this.m_obstaclePool.push(obs1);
       this.m_obstaclePool.push(obs2);
       this.m_obstaclePool.push(obs3);
-      this.m_obstaclePool.push(powerUp);
+      //this.m_obstaclePool.push(powerUp);
 
-      scene.physics.add.overlap(obs1, runner, gameover);
+     // scene.physics.add.overlap(obs1, runner, gameover);
       scene.physics.add.overlap(obs2, runner, gameover);
       scene.physics.add.overlap(obs3, runner, () =>
         this.addScore(addScore, obs3)
       );
-      scene.physics.add.overlap(powerUp, runner, () =>
-        runner.addPowerUp(powerUp.powerUps)
-      );
+
     }
 
     this.m_spawnEvent = scene.time.addEvent({
@@ -91,10 +89,8 @@ export default class ObstacleManager {
   private generateObstacle() {
     let rand = Math.random();
 
-    if (rand < 0.4) {
+    if (rand < 0.8) {
       this.getObstacleFromPool(ObstacleType.kFence);
-    } else if (rand < 0.8) {
-      this.getObstacleFromPool(ObstacleType.kSaw);
     } else {
       this.getObstacleFromPool(ObstacleType.kCrystal);
     } 

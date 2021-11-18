@@ -42,6 +42,8 @@ export default class Obstacle extends Phaser.GameObjects.Image {
 
 
     this.setVisible(false);
+
+    this.setDepth(-1);
   }
 
   public activate()

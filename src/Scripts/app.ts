@@ -1,19 +1,19 @@
 import "phaser";
 import GameScene from "./Scene/GameScene";
 import PreloadScene from "./Scene/PreloadScene";
+import {getResolution} from './Util/Util'
 type GameConfig = Phaser.Types.Core.GameConfig;
 
-const DEFAULT_WIDTH = 1200;
-const DEFAULT_HEIGHT = 800;
+
 
 const config: GameConfig = {
   title: "PhaserGame",
   scale: {
     parent: "game",
-    mode: Phaser.Scale.FIT,
+    mode: Phaser.Scale.HEIGHT_CONTROLS_WIDTH,
     autoCenter: Phaser.Scale.CENTER_BOTH,
-    width: DEFAULT_WIDTH,
-    height: DEFAULT_HEIGHT
+    width: getResolution().width,
+    height: getResolution().height,
   },
   physics: {
     default: "arcade",

@@ -1,5 +1,5 @@
 import Runner from "../Object/Runner"
-
+import AlignTool from "../Util/AlignTool"
 export default class ParallaxManager
 {
     private m_mountain:Phaser.GameObjects.Image;
@@ -32,16 +32,17 @@ export default class ParallaxManager
         .image(0, 300, "sky")
         .setDepth(-1)
         .setOrigin(0, 0.5)
-        .setScale(1.2)
         .setDepth(-2)
         .setAlpha(0.6)
         this.m_sky2 = scene.add
         .image(scene.cameras.main.width, 300, "sky")
         .setDepth(-1)
         .setOrigin(0, 0.5)
-        .setScale(1.2)
         .setDepth(-2)
         .setAlpha(0.6)
+
+        AlignTool.scaleToScreenWidth(scene, this.m_sky, 1);
+        AlignTool.scaleToScreenWidth(scene, this.m_sky2, 1);
 
         this.startMovement(scene, this.m_mountain, 1, runner, 0, -2048);
         this.startMovement(scene, this.m_mountain2, 1, runner, 2048, 0);   

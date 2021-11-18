@@ -74,10 +74,9 @@ export default class Runner extends Phaser.Physics.Arcade.Sprite {
 
     this.anims.play("run");
 
-    this.m_cursors = scene.input.keyboard.createCursorKeys();
 
-    this.m_cursors.up.on("down", () => this.jump());
-    this.m_cursors.down.on("down", () => this.duck());
+    this.scene.input.on("pointerdown", () => this.jump());
+
 
     scene.time.addEvent({
       delay: 1000,

@@ -38,9 +38,9 @@ export default class GameScene extends Phaser.Scene {
 
     this.m_runner = new Runner(this, 300, this.cameras.main.height * 0.4);
 
-    this.startMovement(ground, 6, this.m_runner, 0, -this.cameras.main.width);
+    this.startMovement(ground, 6 * devicePixelRatio, this.m_runner, 0, -this.cameras.main.width);
 
-    this.startMovement(ground2, 6, this.m_runner, this.cameras.main.width, 0);
+    this.startMovement(ground2, 6 * devicePixelRatio, this.m_runner, this.cameras.main.width, 0);
 
     this.m_parallax = new ParallaxManager(this, this.m_runner);
 

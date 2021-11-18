@@ -59,7 +59,7 @@ export default class Obstacle extends Phaser.GameObjects.Image {
         delay: 10,
         loop: true,
         callback: ()=>{
-            this.x -= 6 * this.m_runner.speed;
+            this.x -= 6 * this.m_runner.speed * devicePixelRatio;
             
             if(this.x < -5)
             {

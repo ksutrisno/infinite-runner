@@ -40,7 +40,7 @@ export default class ObstacleManager {
       let obs3 = new Obstacle(
         scene,
         0,
-        scene.cameras.main.height * 0.4,
+        scene.cameras.main.height * 0.425,
         "crystal",
         false,
         ObstacleType.kCrystal,

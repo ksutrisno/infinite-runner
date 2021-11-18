@@ -2,6 +2,7 @@ import * as Phaser from "phaser";
 import {PowerUp} from "../Object/PowerUp/PowerUp";
 import { PowerUpType } from "./PowerUp/PowerUpType";
 import GameScene from "../Scene/GameScene";
+import AlignTool from "../Util/AlignTool";
 
 export enum RunnerState {
   kRun = "run",
@@ -39,8 +40,12 @@ export default class Runner extends Phaser.Physics.Arcade.Sprite {
 
     this.setGravity(0, 350);
     this.setAccelerationY(350);
-    this.setSize(70 * this.scale, 80 * this.scale);
-    this.setOffset(10, 15);
+
+    
+    AlignTool.scaleToScreenWidth(scene, this, 0.15);
+
+    this.setOrigin(0.5, 0.5);
+    this.setSize(this.width * 0.7, this.height);
 
     this.m_gameScene = scene;
 
@@ -124,7 +129,7 @@ export default class Runner extends Phaser.Physics.Arcade.Sprite {
 
   public jump() {
     if (this.m_state === RunnerState.kRun) {
-      this.setVelocityY(-450);
+      this.setVelocityY(-500);
 
       this.setRunnerState(RunnerState.kJump);
     }

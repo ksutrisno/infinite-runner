@@ -10,8 +10,8 @@ const config: GameConfig = {
   title: "PhaserGame",
   scale: {
     parent: "game",
-    mode: Phaser.Scale.HEIGHT_CONTROLS_WIDTH,
-    autoCenter: Phaser.Scale.CENTER_BOTH,
+    mode: Phaser.Scale.FIT,
+    autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
     width: getResolution().width,
     height: getResolution().height,
   },

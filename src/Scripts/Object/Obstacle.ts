@@ -1,5 +1,6 @@
 import * as Phaser from "phaser";
 import {ObstacleType} from "../Manager/ObstacleManager"
+import AlignTool from "../Util/AlignTool";
 import Runner  from "./Runner";
 
 export default class Obstacle extends Phaser.GameObjects.Image {
@@ -44,6 +45,8 @@ export default class Obstacle extends Phaser.GameObjects.Image {
     this.setVisible(false);
 
     this.setDepth(-1);
+
+    AlignTool.scaleToScreenWidth(scene, this, 0.1);
   }
 
   public activate()
@@ -56,7 +59,7 @@ export default class Obstacle extends Phaser.GameObjects.Image {
         delay: 10,
         loop: true,
         callback: ()=>{
-            this.x -= 5 * this.m_runner.speed;
+            this.x -= 6 * this.m_runner.speed;
             
             if(this.x < -5)
             {

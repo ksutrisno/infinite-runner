@@ -31,7 +31,7 @@ export default class ObstacleManager {
       let obs2 = new Obstacle(
         scene,
         0,
-        scene.cameras.main.height - 64* 7 - 25,
+        scene.cameras.main.height * 0.6 -  scene.cameras.main.width/20,
         "obstacle",
         false,
         ObstacleType.kFence,
@@ -40,7 +40,7 @@ export default class ObstacleManager {
       let obs3 = new Obstacle(
         scene,
         0,
-        scene.cameras.main.height  - 64* 8 - 120,
+        scene.cameras.main.height * 0.4,
         "crystal",
         false,
         ObstacleType.kCrystal,

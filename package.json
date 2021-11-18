@@ -4,7 +4,7 @@
   "description": "starting scene",
   "main": "app.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "webpack && node server.js",
     "heroku-postbuild": "webpack"
   },
   "author": "kevin sutrisno",

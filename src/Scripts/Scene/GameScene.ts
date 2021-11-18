@@ -33,16 +33,18 @@ export default class GameScene extends Phaser.Scene {
 
   create(): void {
    // this.fpsText = new FpsText(this);
-    let ground = new Ground(this, 0, this.cameras.main.height);
-    let ground2 = new Ground(this, this.cameras.main.width, this.cameras.main.height);
+    let ground = new Ground(this, 0,  this.cameras.main.height * 0.6);
+    let ground2 = new Ground(this, this.cameras.main.width, this.cameras.main.height * 0.6);
 
-    this.m_runner = new Runner(this, 300, 300);
+    this.m_runner = new Runner(this, 300, this.cameras.main.height * 0.4);
 
-    this.startMovement(ground, 5, this.m_runner, 0, -this.cameras.main.width);
+    this.startMovement(ground, 6, this.m_runner, 0, -this.cameras.main.width);
 
-    this.startMovement(ground2, 5, this.m_runner, this.cameras.main.width, 0);
+    this.startMovement(ground2, 6, this.m_runner, this.cameras.main.width, 0);
 
     this.m_parallax = new ParallaxManager(this, this.m_runner);
+
+
 
     ground.setCollision(this.m_runner, this.m_runner.grounded);
     ground2.setCollision(this.m_runner, this.m_runner.grounded);
@@ -55,8 +57,8 @@ export default class GameScene extends Phaser.Scene {
     );
 
     this.m_scoreText = this.add
-      .text(this.cameras.main.width / 2, 75, this.m_score.toString(), {
-        fontSize: "60px",
+      .text(this.cameras.main.width / 2, this.cameras.main.height * 0.1, this.m_score.toString(), {
+        fontSize: "70px",
         color: "black"
       })
       .setOrigin(0.5);
@@ -95,15 +97,15 @@ export default class GameScene extends Phaser.Scene {
 
     this.m_gameState = GameState.kGameover;
     this.add
-      .text(this.cameras.main.width / 2, 300, "GAME OVER", {
-        fontSize:  "60px",
+      .text(this.cameras.main.width / 2,  this.cameras.main.height * 0.4, "GAME OVER", {
+        fontSize:  "70px",
         color: "black"
       })
       .setOrigin(0.5);
 
     this.add
-      .text(this.cameras.main.width / 2, 350, "Tap to Restart", {
-        fontSize: "25px",
+      .text(this.cameras.main.width / 2,  this.cameras.main.height * 0.4 + 100, "Tap to Restart", {
+        fontSize: "35px",
         color: "black"
       })
       .setOrigin(0.5);

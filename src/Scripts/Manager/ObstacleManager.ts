@@ -4,6 +4,7 @@ import PowerUpObject from "../Object/PowerUp/PowerUpObject";
 import { PowerUpType } from "../Object/PowerUp/PowerUpType";
 import { Grow } from "../Object/PowerUp/PowerUp";
 import Runner from "../Object/Runner";
+import AlignTool from "../Util/AlignTool";
 
 export enum ObstacleType {
   kFence,
@@ -40,7 +41,7 @@ export default class ObstacleManager {
       let obs3 = new Obstacle(
         scene,
         0,
-        scene.cameras.main.height * 0.425,
+        scene.cameras.main.height * 0.7 - AlignTool.getXfromScreenWidth(scene, 0.001),
         "crystal",
         false,
         ObstacleType.kCrystal,
